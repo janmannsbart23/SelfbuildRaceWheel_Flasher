@@ -1,0 +1,143 @@
+<!doctype html>
+<!--
+  Copyright (c) 2024-2026 Jan Lenz
+  SPDX-License-Identifier: PolyForm-Noncommercial-1.0.0
+
+  Free for personal and other noncommercial use. Commercial use requires permission.
+  License: LICENSE.md in the repository root or https://polyformproject.org/licenses/noncommercial/1.0.0
+-->
+
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RaceWheel Firmware</title>
+<meta name="description" content="Update the firmware of the RaceWheel steering wheels, the display and the USB dongle – right in the browser.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+	<div class="wrap">
+		<div class="brand">
+			<span class="mark" aria-hidden="true"></span>
+			<div>
+				<h1>RaceWheel Firmware</h1>
+				<p class="sub">Update wheels, display and dongle – right in the browser</p>
+			</div>
+		</div>
+		<div class="release" id="release">Loading firmware release …</div>
+	</div>
+</header>
+
+<main class="wrap">
+	<div class="notice warn" id="no-serial" hidden>
+		<strong>This browser cannot access serial devices.</strong>
+		Please use Chrome or Edge on a desktop computer (Web Serial). Firefox and Safari do not support it.
+	</div>
+
+	<nav class="tabs" role="tablist">
+		<button role="tab" class="tab" id="tab-update" aria-selected="true" aria-controls="pane-update">Update via dongle</button>
+		<button role="tab" class="tab" id="tab-install" aria-selected="false" aria-controls="pane-install">USB installation</button>
+	</nav>
+
+	<!-- ============================================================ Update via dongle -->
+	<section id="pane-update" role="tabpanel" aria-labelledby="tab-update">
+		<p class="intro muted">The normal way to update. The PC talks to the wheel through the USB dongle and its
+			radio link (ESP-NOW). The wheel ESP32, the wheel's STM32 and the display are updated one after the other;
+			each device restarts on its own when it is done.</p>
+		<div class="card">
+			<div class="step"><span class="num">1</span><h2>Connect the dongle</h2></div>
+			<p class="muted">Plug the USB dongle into the PC and switch the wheel on. <strong>Close SimHub first</strong>
+				(or disconnect its "Custom Serial Device") – otherwise the COM port is busy.</p>
+			<div class="row">
+				<button class="btn primary" id="btn-dongle">Connect dongle</button>
+				<button class="btn ghost" id="btn-dongle-any" title="Show all serial ports">Other port …</button>
+				<button class="btn ghost" id="btn-dongle-off" hidden>Disconnect</button>
+				<div class="chips" id="link-chips"></div>
+			</div>
+		</div>
+
+		<div class="card" id="card-devices">
+			<div class="step"><span class="num">2</span><h2>Update a device</h2></div>
+			<p class="muted">Devices appear as soon as their heartbeat arrives. "In bootloader" means a previous update
+				was interrupted – the device keeps waiting and can simply be flashed again.</p>
+			<div id="devices"><p class="muted empty">Not connected yet.</p></div>
+			<button class="btn small ghost" id="btn-probe" hidden title="Sends TesterPresent to all known addresses">Search devices actively</button>
+		</div>
+	</section>
+
+	<!-- ============================================================ USB installation -->
+	<section id="pane-install" role="tabpanel" aria-labelledby="tab-install" hidden>
+		<div class="card">
+			<div class="step"><span class="num">1</span><h2>What should be installed?</h2></div>
+			<p class="muted">For new or empty boards, for the dongle, or when a device can no longer be reached through the
+				dongle. Everything is written: ESP32 bootloader, partition table, UDS bootloader and the application.</p>
+			<div class="field">
+				<label for="sel-install">Device</label>
+				<select id="sel-install"></select>
+			</div>
+			<label class="check"><input type="checkbox" id="chk-erase"><span>Erase the whole flash first
+				<span class="muted">(also removes stored settings, e.g. the paired dongle and the last display page)</span></span></label>
+		</div>
+		<div class="card">
+			<div class="step"><span class="num">2</span><h2>Connect via USB and install</h2></div>
+			<ol class="howto">
+				<li>Connect the board directly to the PC with a USB cable (wheel: USB port of the ESP32; dongle: plug it in).</li>
+				<li>Click "Connect &amp; install" and choose the port.</li>
+				<li>If the connection fails: <strong>hold BOOT</strong>, press RESET briefly (or plug in), release BOOT – then try again.</li>
+			</ol>
+			<div class="row">
+				<button class="btn primary" id="btn-install">Connect &amp; install</button>
+				<span class="muted small" id="install-hint" hidden>Disconnect the dongle first (tab "Update via dongle").</span>
+				<div class="chips" id="usb-chips"></div>
+			</div>
+		</div>
+	</section>
+
+	<!-- ============================================================ Progress -->
+	<div class="card progress-card" id="progress" hidden>
+		<div class="prog-head">
+			<strong id="prog-title">Flashing</strong>
+			<span id="prog-pct">0 %</span>
+		</div>
+		<div class="bar"><div class="fill" id="prog-fill"></div></div>
+		<p id="prog-text" class="muted">…</p>
+		<div class="row">
+			<button class="btn danger small" id="btn-cancel">Cancel</button>
+		</div>
+		<div class="result" id="prog-result" hidden></div>
+	</div>
+
+	<details class="card" id="settings">
+		<summary>Settings &amp; log</summary>
+		<div class="field">
+			<label for="sel-profile">Connection</label>
+			<select id="sel-profile"></select>
+			<p class="muted small" id="profile-hint"></p>
+			<p class="muted small">"Wireless (robust)" uses smaller blocks, short pauses and more retries – the same
+				values as the UDS tool's wireless profile. Use "Standard" only on a perfect link.</p>
+		</div>
+		<div class="field">
+			<label for="inp-key">UDS key (16 bytes, hex)</label>
+			<input id="inp-key" type="text" spellcheck="false" autocomplete="off" placeholder="from the firmware release">
+			<p class="muted small" id="key-hint">Stored in this browser only. Empty = key from the firmware release.</p>
+		</div>
+		<label class="check"><input type="checkbox" id="chk-files"><span>Allow own firmware files (for developers)</span></label>
+		<label class="check"><input type="checkbox" id="chk-trace"><span>Log CAN traffic</span></label>
+		<div class="logbar">
+			<strong>Log</strong>
+			<button class="btn small ghost" id="btn-log-copy">Copy</button>
+			<button class="btn small ghost" id="btn-log-clear">Clear</button>
+		</div>
+		<pre id="log" class="log"></pre>
+	</details>
+
+	<footer class="foot muted small">
+		Runs entirely in the browser, nothing is uploaded. ESP32 flashing via USB: esptool-js (Apache-2.0).<br>
+		© 2024–2026 Jan Lenz · <a href="LICENSE.md">PolyForm Noncommercial 1.0.0</a> – free for personal use, commercial use only with permission · <a href="THIRD_PARTY.md">Third-party software</a>
+	</footer>
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
