@@ -1,5 +1,7 @@
 # RaceWheel Flasher
 
+<p align="center"><img src="images/hero.png" alt="RaceWheel BasicGT3, AdvancedDisplayWheel and AdvancedGT3" width="100%"></p>
+
 Published web flasher for RaceWheel steering wheels — update the wheel ESP32, display and STM32 wireless
 via a USB dongle, or install a device via USB, right from the browser (Chrome/Edge, Web Serial).
 
