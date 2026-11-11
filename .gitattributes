@@ -1,0 +1,5 @@
+# Firmware files must round-trip byte-for-byte (sha256 in firmware/manifest.json): never let git
+# touch line endings, no matter what it thinks the content looks like.
+*.hex -text
+*.bin -text
+firmware/** -text
