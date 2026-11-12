@@ -1,7 +1,7 @@
 {
  "format": 1,
  "name": "RaceWheel",
- "generated": "2026-11-11T18:34:25Z",
+ "generated": "2026-11-12T10:17:53Z",
  "products": [
   {
    "id": "wheel_esp-advanceddisplay",
@@ -17,7 +17,7 @@
    "update": {
     "file": "wheel_esp-advanceddisplay/firmware.bin",
     "size": 1086432,
-    "sha256": "df31c5a070d8a8c51f7a5d97f051b3d015e5efce9747fe81da1284ebd9596dcb"
+    "sha256": "4554075ec138f3857ca6d50016d092c88372741b7359ae4027470d77df126823"
    },
    "install": {
     "flashSize": "4MB",
@@ -43,13 +43,13 @@
       "offset": 65536,
       "file": "wheel_esp-advanceddisplay/uds_bootloader.bin",
       "size": 925648,
-      "sha256": "caebe7c570868f1cfb4facef7a57ff58945b57232d7ae8cd192f3b4f9ed2044c"
+      "sha256": "f72bf0fcad1b4348ac53578060ad8e97d6b30edfc4665f6525fcdf6474248ce7"
      },
      {
       "offset": 1376256,
       "file": "wheel_esp-advanceddisplay/firmware.bin",
       "size": 1086432,
-      "sha256": "df31c5a070d8a8c51f7a5d97f051b3d015e5efce9747fe81da1284ebd9596dcb"
+      "sha256": "4554075ec138f3857ca6d50016d092c88372741b7359ae4027470d77df126823"
      }
     ]
    }
@@ -68,7 +68,7 @@
    "update": {
     "file": "wheel_esp-advancedgt3/firmware.bin",
     "size": 1177280,
-    "sha256": "bdf616c60d7902bff31d72b9c8a9fd8f1e95ad11f8233dda888680b466fb8534"
+    "sha256": "09ae707711e5274cd1f2495e62036388ecf7da3a003e9c8a5d48cf56bce7f292"
    },
    "install": {
     "flashSize": "4MB",
@@ -94,13 +94,13 @@
       "offset": 65536,
       "file": "wheel_esp-advancedgt3/uds_bootloader.bin",
       "size": 925648,
-      "sha256": "caebe7c570868f1cfb4facef7a57ff58945b57232d7ae8cd192f3b4f9ed2044c"
+      "sha256": "f72bf0fcad1b4348ac53578060ad8e97d6b30edfc4665f6525fcdf6474248ce7"
      },
      {
       "offset": 1376256,
       "file": "wheel_esp-advancedgt3/firmware.bin",
       "size": 1177280,
-      "sha256": "bdf616c60d7902bff31d72b9c8a9fd8f1e95ad11f8233dda888680b466fb8534"
+      "sha256": "09ae707711e5274cd1f2495e62036388ecf7da3a003e9c8a5d48cf56bce7f292"
      }
     ]
    }
@@ -119,7 +119,7 @@
    "update": {
     "file": "wheel_esp-basicgt3/firmware.bin",
     "size": 1086320,
-    "sha256": "5ddd2f2f7cc06fd8e67d989753c64aa158860d0f8c34cd759fdb8f5ef38b0c47"
+    "sha256": "1081cabfcc85ae6f751f2ddb6daca2d5449a8a1ac223f68dd870b1a163a240ef"
    },
    "install": {
     "flashSize": "4MB",
@@ -145,13 +145,13 @@
       "offset": 65536,
       "file": "wheel_esp-basicgt3/uds_bootloader.bin",
       "size": 925648,
-      "sha256": "caebe7c570868f1cfb4facef7a57ff58945b57232d7ae8cd192f3b4f9ed2044c"
+      "sha256": "f72bf0fcad1b4348ac53578060ad8e97d6b30edfc4665f6525fcdf6474248ce7"
      },
      {
       "offset": 1376256,
       "file": "wheel_esp-basicgt3/firmware.bin",
       "size": 1086320,
-      "sha256": "5ddd2f2f7cc06fd8e67d989753c64aa158860d0f8c34cd759fdb8f5ef38b0c47"
+      "sha256": "1081cabfcc85ae6f751f2ddb6daca2d5449a8a1ac223f68dd870b1a163a240ef"
      }
     ]
    }
@@ -160,7 +160,7 @@
    "id": "display",
    "type": 8,
    "name": "Display (ESP32-P4 before rev. 3.0)",
-   "version": "1.5.0",
+   "version": "1.5.1",
    "chip": "ESP32-P4",
    "chipRev": {
     "min": 0,
@@ -168,8 +168,8 @@
    },
    "update": {
     "file": "display/firmware.bin",
-    "size": 2404976,
-    "sha256": "5f703828bace9089b48f35f89cb66a1ebacc38e0fbe59d80d4c7db77a1ff29ef"
+    "size": 2405024,
+    "sha256": "1544e090168fafe949c885da3f744311ef4a862d50db3b9748f96e6eb6dd4cdf"
    },
    "install": {
     "flashSize": "16MB",
@@ -194,14 +194,14 @@
      {
       "offset": 65536,
       "file": "display/uds_bootloader.bin",
-      "size": 556880,
-      "sha256": "912048e1653dfb899b6919675a92427abb245f2acead030e3e24fc8958f200c4"
+      "size": 558224,
+      "sha256": "e31010bfa4f1b29de5d5fb0b72de92a9e9b64068cbbd60905512d88c7d0bd13a"
      },
      {
       "offset": 2097152,
       "file": "display/firmware.bin",
-      "size": 2404976,
-      "sha256": "5f703828bace9089b48f35f89cb66a1ebacc38e0fbe59d80d4c7db77a1ff29ef"
+      "size": 2405024,
+      "sha256": "1544e090168fafe949c885da3f744311ef4a862d50db3b9748f96e6eb6dd4cdf"
      }
     ]
    }
@@ -210,7 +210,7 @@
    "id": "display-r3",
    "type": 8,
    "name": "Display (ESP32-P4 rev. 3.0 and later)",
-   "version": "1.5.0",
+   "version": "1.5.1",
    "chip": "ESP32-P4",
    "chipRev": {
     "min": 0,
@@ -218,8 +218,8 @@
    },
    "update": {
     "file": "display-r3/firmware.bin",
-    "size": 2406816,
-    "sha256": "34d9f1278e5671698c10e74ed6ed46e01c8a867de1c5823394d09f862f0fceb3"
+    "size": 2406864,
+    "sha256": "ede1bdb9de1a84938b0be58d7037969de97641a8c8eb52e3e9c503269d5307b8"
    },
    "install": {
     "flashSize": "16MB",
@@ -244,14 +244,14 @@
      {
       "offset": 65536,
       "file": "display-r3/uds_bootloader.bin",
-      "size": 557616,
-      "sha256": "ab908bb63606e31e101aae39e72e8d699822c993b87a62b5f9230a193e89f7aa"
+      "size": 558960,
+      "sha256": "45d97e75ae622cf0ea2d7dcde9cc36053fd598f2c70c6ce489544f47f2c1b9e2"
      },
      {
       "offset": 2097152,
       "file": "display-r3/firmware.bin",
-      "size": 2406816,
-      "sha256": "34d9f1278e5671698c10e74ed6ed46e01c8a867de1c5823394d09f862f0fceb3"
+      "size": 2406864,
+      "sha256": "ede1bdb9de1a84938b0be58d7037969de97641a8c8eb52e3e9c503269d5307b8"
      }
     ]
    }
