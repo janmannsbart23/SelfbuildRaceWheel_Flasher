@@ -1,7 +1,7 @@
 {
  "format": 1,
  "name": "RaceWheel",
- "generated": "2026-11-12T10:17:53Z",
+ "generated": "2026-11-12T11:08:14Z",
  "products": [
   {
    "id": "wheel_esp-advanceddisplay",
@@ -160,7 +160,7 @@
    "id": "display",
    "type": 8,
    "name": "Display (ESP32-P4 before rev. 3.0)",
-   "version": "1.5.1",
+   "version": "1.5.2",
    "chip": "ESP32-P4",
    "chipRev": {
     "min": 0,
@@ -168,8 +168,8 @@
    },
    "update": {
     "file": "display/firmware.bin",
-    "size": 2405024,
-    "sha256": "1544e090168fafe949c885da3f744311ef4a862d50db3b9748f96e6eb6dd4cdf"
+    "size": 2405152,
+    "sha256": "c9bce501e37f6767bd2554d1f3ae67a1d20bc82f399acfbbe291c2625b16e01e"
    },
    "install": {
     "flashSize": "16MB",
@@ -200,8 +200,8 @@
      {
       "offset": 2097152,
       "file": "display/firmware.bin",
-      "size": 2405024,
-      "sha256": "1544e090168fafe949c885da3f744311ef4a862d50db3b9748f96e6eb6dd4cdf"
+      "size": 2405152,
+      "sha256": "c9bce501e37f6767bd2554d1f3ae67a1d20bc82f399acfbbe291c2625b16e01e"
      }
     ]
    }
@@ -210,7 +210,7 @@
    "id": "display-r3",
    "type": 8,
    "name": "Display (ESP32-P4 rev. 3.0 and later)",
-   "version": "1.5.1",
+   "version": "1.5.2",
    "chip": "ESP32-P4",
    "chipRev": {
     "min": 0,
@@ -218,8 +218,8 @@
    },
    "update": {
     "file": "display-r3/firmware.bin",
-    "size": 2406864,
-    "sha256": "ede1bdb9de1a84938b0be58d7037969de97641a8c8eb52e3e9c503269d5307b8"
+    "size": 2406992,
+    "sha256": "d971513be33a7ccdf0d98ae4673d9289e8a94b634ec5a53caadaa6bd7978589f"
    },
    "install": {
     "flashSize": "16MB",
@@ -250,8 +250,8 @@
      {
       "offset": 2097152,
       "file": "display-r3/firmware.bin",
-      "size": 2406864,
-      "sha256": "ede1bdb9de1a84938b0be58d7037969de97641a8c8eb52e3e9c503269d5307b8"
+      "size": 2406992,
+      "sha256": "d971513be33a7ccdf0d98ae4673d9289e8a94b634ec5a53caadaa6bd7978589f"
      }
     ]
    }
