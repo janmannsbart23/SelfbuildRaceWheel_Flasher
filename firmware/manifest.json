@@ -1,14 +1,14 @@
 {
  "format": 1,
  "name": "RaceWheel",
- "generated": "2026-11-12T11:08:14Z",
+ "generated": "2026-11-13T13:40:17Z",
  "products": [
   {
    "id": "wheel_esp-advanceddisplay",
    "type": 6,
    "variant": 3,
    "name": "Wheel ESP32 · AdvancedDisplayWheel",
-   "version": "1.3.0",
+   "version": "1.4.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -16,8 +16,8 @@
    },
    "update": {
     "file": "wheel_esp-advanceddisplay/firmware.bin",
-    "size": 1086432,
-    "sha256": "4554075ec138f3857ca6d50016d092c88372741b7359ae4027470d77df126823"
+    "size": 1086576,
+    "sha256": "1d6ce431bdc44577ca43766e70f028352e7ee751735cdc258b4059c44b8f7cfd"
    },
    "install": {
     "flashSize": "4MB",
@@ -48,8 +48,8 @@
      {
       "offset": 1376256,
       "file": "wheel_esp-advanceddisplay/firmware.bin",
-      "size": 1086432,
-      "sha256": "4554075ec138f3857ca6d50016d092c88372741b7359ae4027470d77df126823"
+      "size": 1086576,
+      "sha256": "1d6ce431bdc44577ca43766e70f028352e7ee751735cdc258b4059c44b8f7cfd"
      }
     ]
    }
@@ -59,7 +59,7 @@
    "type": 6,
    "variant": 2,
    "name": "Wheel ESP32 · AdvancedGT3",
-   "version": "1.3.0",
+   "version": "1.4.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -67,8 +67,8 @@
    },
    "update": {
     "file": "wheel_esp-advancedgt3/firmware.bin",
-    "size": 1177280,
-    "sha256": "09ae707711e5274cd1f2495e62036388ecf7da3a003e9c8a5d48cf56bce7f292"
+    "size": 1177456,
+    "sha256": "9db1bf4ef7e02301056c7a33b494ffdb196559b505d011aa416851218ea48dd4"
    },
    "install": {
     "flashSize": "4MB",
@@ -99,8 +99,8 @@
      {
       "offset": 1376256,
       "file": "wheel_esp-advancedgt3/firmware.bin",
-      "size": 1177280,
-      "sha256": "09ae707711e5274cd1f2495e62036388ecf7da3a003e9c8a5d48cf56bce7f292"
+      "size": 1177456,
+      "sha256": "9db1bf4ef7e02301056c7a33b494ffdb196559b505d011aa416851218ea48dd4"
      }
     ]
    }
@@ -110,7 +110,7 @@
    "type": 6,
    "variant": 1,
    "name": "Wheel ESP32 · BasicGT3",
-   "version": "1.3.0",
+   "version": "1.4.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -118,8 +118,8 @@
    },
    "update": {
     "file": "wheel_esp-basicgt3/firmware.bin",
-    "size": 1086320,
-    "sha256": "1081cabfcc85ae6f751f2ddb6daca2d5449a8a1ac223f68dd870b1a163a240ef"
+    "size": 1086464,
+    "sha256": "7adf594315b71542b3b110cd96df5d96eca936e2f9a4e09c168792e915b3abe9"
    },
    "install": {
     "flashSize": "4MB",
@@ -150,8 +150,8 @@
      {
       "offset": 1376256,
       "file": "wheel_esp-basicgt3/firmware.bin",
-      "size": 1086320,
-      "sha256": "1081cabfcc85ae6f751f2ddb6daca2d5449a8a1ac223f68dd870b1a163a240ef"
+      "size": 1086464,
+      "sha256": "7adf594315b71542b3b110cd96df5d96eca936e2f9a4e09c168792e915b3abe9"
      }
     ]
    }
@@ -261,7 +261,7 @@
    "type": 7,
    "name": "USB dongle",
    "notes": "USB only (no UDS bootloader).",
-   "version": "5.4.2",
+   "version": "5.5.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -273,8 +273,8 @@
      {
       "offset": 0,
       "file": "dongle/firmware.factory.bin",
-      "size": 1051792,
-      "sha256": "9a76857da824d5eb1f8bb94f1d14cd7c73b1947d4e76e26e88d8a518bbb1bff1"
+      "size": 1052032,
+      "sha256": "e2955fc2cfac216c9985aeae65cdb7bc3cda41903375f0fc5145843b90b39931"
      }
     ]
    }
