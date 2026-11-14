@@ -1,14 +1,14 @@
 {
  "format": 1,
  "name": "RaceWheel",
- "generated": "2026-11-14T21:25:55Z",
+ "generated": "2026-11-14T22:10:01Z",
  "products": [
   {
    "id": "wheel_esp-advanceddisplay",
    "type": 6,
    "variant": 3,
    "name": "Wheel ESP32 · AdvancedDisplayWheel",
-   "version": "1.4.0",
+   "version": "1.5.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -16,8 +16,8 @@
    },
    "update": {
     "file": "wheel_esp-advanceddisplay/firmware.bin",
-    "size": 1086576,
-    "sha256": "1d6ce431bdc44577ca43766e70f028352e7ee751735cdc258b4059c44b8f7cfd"
+    "size": 1086880,
+    "sha256": "a6d14fa492ae411e161158502d65885004f4ecec7a1cdb63e988ef6e3b398cbd"
    },
    "install": {
     "flashSize": "4MB",
@@ -48,8 +48,8 @@
      {
       "offset": 1376256,
       "file": "wheel_esp-advanceddisplay/firmware.bin",
-      "size": 1086576,
-      "sha256": "1d6ce431bdc44577ca43766e70f028352e7ee751735cdc258b4059c44b8f7cfd"
+      "size": 1086880,
+      "sha256": "a6d14fa492ae411e161158502d65885004f4ecec7a1cdb63e988ef6e3b398cbd"
      }
     ]
    }
@@ -59,7 +59,7 @@
    "type": 6,
    "variant": 2,
    "name": "Wheel ESP32 · AdvancedGT3",
-   "version": "1.4.0",
+   "version": "1.5.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -67,8 +67,8 @@
    },
    "update": {
     "file": "wheel_esp-advancedgt3/firmware.bin",
-    "size": 1177456,
-    "sha256": "9db1bf4ef7e02301056c7a33b494ffdb196559b505d011aa416851218ea48dd4"
+    "size": 1177744,
+    "sha256": "f2b56c6c42112e3df3ecae9356b3bd7f0ab4e6cc0f7ce49ef396e507c1ee76d2"
    },
    "install": {
     "flashSize": "4MB",
@@ -99,8 +99,8 @@
      {
       "offset": 1376256,
       "file": "wheel_esp-advancedgt3/firmware.bin",
-      "size": 1177456,
-      "sha256": "9db1bf4ef7e02301056c7a33b494ffdb196559b505d011aa416851218ea48dd4"
+      "size": 1177744,
+      "sha256": "f2b56c6c42112e3df3ecae9356b3bd7f0ab4e6cc0f7ce49ef396e507c1ee76d2"
      }
     ]
    }
@@ -110,7 +110,7 @@
    "type": 6,
    "variant": 1,
    "name": "Wheel ESP32 · BasicGT3",
-   "version": "1.4.0",
+   "version": "1.5.0",
    "chip": "ESP32-S3",
    "chipRev": {
     "min": 0,
@@ -118,8 +118,8 @@
    },
    "update": {
     "file": "wheel_esp-basicgt3/firmware.bin",
-    "size": 1086464,
-    "sha256": "7adf594315b71542b3b110cd96df5d96eca936e2f9a4e09c168792e915b3abe9"
+    "size": 1086784,
+    "sha256": "37dedd1ecb71cbf7d4e2250225501bb04e82915570ec628f527437fff05656b0"
    },
    "install": {
     "flashSize": "4MB",
@@ -150,8 +150,8 @@
      {
       "offset": 1376256,
       "file": "wheel_esp-basicgt3/firmware.bin",
-      "size": 1086464,
-      "sha256": "7adf594315b71542b3b110cd96df5d96eca936e2f9a4e09c168792e915b3abe9"
+      "size": 1086784,
+      "sha256": "37dedd1ecb71cbf7d4e2250225501bb04e82915570ec628f527437fff05656b0"
      }
     ]
    }
@@ -160,7 +160,7 @@
    "id": "display",
    "type": 8,
    "name": "Display (ESP32-P4 before rev. 3.0)",
-   "version": "1.5.2",
+   "version": "1.6.0",
    "chip": "ESP32-P4",
    "chipRev": {
     "min": 0,
@@ -168,8 +168,8 @@
    },
    "update": {
     "file": "display/firmware.bin",
-    "size": 2405152,
-    "sha256": "c9bce501e37f6767bd2554d1f3ae67a1d20bc82f399acfbbe291c2625b16e01e"
+    "size": 2412912,
+    "sha256": "e6fba37f1b702859adeebf26a344faaee8091b758e0557786b282738a4812c2c"
    },
    "install": {
     "flashSize": "16MB",
@@ -200,8 +200,8 @@
      {
       "offset": 2097152,
       "file": "display/firmware.bin",
-      "size": 2405152,
-      "sha256": "c9bce501e37f6767bd2554d1f3ae67a1d20bc82f399acfbbe291c2625b16e01e"
+      "size": 2412912,
+      "sha256": "e6fba37f1b702859adeebf26a344faaee8091b758e0557786b282738a4812c2c"
      }
     ]
    }
@@ -210,7 +210,7 @@
    "id": "display-r3",
    "type": 8,
    "name": "Display (ESP32-P4 rev. 3.0 and later)",
-   "version": "1.5.2",
+   "version": "1.6.0",
    "chip": "ESP32-P4",
    "chipRev": {
     "min": 0,
@@ -218,8 +218,8 @@
    },
    "update": {
     "file": "display-r3/firmware.bin",
-    "size": 2406992,
-    "sha256": "d971513be33a7ccdf0d98ae4673d9289e8a94b634ec5a53caadaa6bd7978589f"
+    "size": 2414736,
+    "sha256": "17580fd2824ee15713f71c4e6a234f9af1183c4d1460b5889127df6ec65dfe17"
    },
    "install": {
     "flashSize": "16MB",
@@ -250,8 +250,8 @@
      {
       "offset": 2097152,
       "file": "display-r3/firmware.bin",
-      "size": 2406992,
-      "sha256": "d971513be33a7ccdf0d98ae4673d9289e8a94b634ec5a53caadaa6bd7978589f"
+      "size": 2414736,
+      "sha256": "17580fd2824ee15713f71c4e6a234f9af1183c4d1460b5889127df6ec65dfe17"
      }
     ]
    }
@@ -318,13 +318,13 @@
   {
    "id": "wheel_stm-advanceddisplaywheelclutch",
    "type": 5,
-   "variant": 4,
+   "variant": 5,
    "name": "Wheel STM32 · AdvancedDisplayWheelClutch",
-   "version": "1.2.0",
+   "version": "1.3.0",
    "update": {
     "file": "wheel_stm-advanceddisplaywheelclutch/app.hex",
-    "size": 412174,
-    "sha256": "297a14542fb7264dcb12495e01a837ff893e9686338bda62bcb3a31e71b4ac13"
+    "size": 418294,
+    "sha256": "77ada27e59dab3d7ad4fafc999b359e77a6c5cdd9541ebe764ab023993c947ca"
    }
   }
  ],

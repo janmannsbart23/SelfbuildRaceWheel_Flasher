@@ -361,7 +361,7 @@ function renderDevice(dev) {
 				renderDevices(true);
 			},
 		}, cands.map((p) => el('option', { value: p.id, selected: p === prod },
-			paddles ? `${p.variant === 4 ? 'Analog clutch paddles' : 'Digital paddles'} – ${p.name} · ${p.version}` : `${p.name} · ${p.version}`)));
+			paddles ? `${p.variant === 5 ? 'Analog clutch paddles' : 'Digital paddles'} – ${p.name} · ${p.version}` : `${p.name} · ${p.version}`)));
 		extra.push(el('span', { class: 'muted' }, dev.type === 8 ? 'Display chip revision:' : paddles ? 'Wheel type:' : 'Package:'), sel);
 	}
 	if (dev.type === 5 && instVar != null && C.WHEEL_VARIANTS[instVar]) {

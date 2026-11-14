@@ -28,14 +28,14 @@ export const DEVICE_TYPES = {
 	0x07: { key: 'dongle', name: 'USB dongle', image: 'esp', chip: 'ESP32-S3', usbOnly: true },
 	0x08: { key: 'display', name: 'Display (AdvancedDisplayWheel)', image: 'esp', chip: 'ESP32-P4' },
 };
-export const WHEEL_VARIANTS = { 1: 'BasicGT3', 2: 'AdvancedGT3', 3: 'AdvancedDisplayWheel', 4: 'AdvancedDisplayWheel · analog clutch' };
+export const WHEEL_VARIANTS = { 1: 'BasicGT3', 2: 'AdvancedGT3', 3: 'AdvancedDisplayWheel', 4: 'WirelessDisplay', 5: 'AdvancedDisplayWheel · analog clutch' };
 
 /*
  * STM32 firmware per wheel. The wheel ESP reports its variant in 0x401 byte 4, but both display wheels
  * share one ESP firmware (variant 3) and differ only in the STM32 firmware: 3 = digital paddles,
- * 4 = analog clutch/shift paddles. The STM32 app reports its own variant in DID 0x0100.
+ * 5 = analog clutch/shift paddles (4 is the WirelessDisplay). The STM32 app reports its own variant in DID 0x0100.
  */
-export const STM_VARIANTS_FOR_ESP = { 3: [3, 4] };
+export const STM_VARIANTS_FOR_ESP = { 3: [3, 5] };
 export const DID_WHEEL_VARIANT = 0x0100;
 
 /** STM32 variants that can sit in a wheel whose ESP reports espVariant. */
@@ -45,11 +45,11 @@ export function stmVariantsFor(espVariant) {
 
 /**
  * Variant of the installed STM32 firmware from DID 0x0100. The clutch firmware up to 1.1.0 wrongly
- * reported ADVANCED_GT3 (2): in a display wheel (ESP variant 3) that means "analog clutch" (4).
+ * reported ADVANCED_GT3 (2): in a display wheel (ESP variant 3) that means "analog clutch" (5).
  */
 export function stmVariantFromDid(espVariant, didVariant) {
 	if (didVariant == null || didVariant === 0) return null;
-	if (espVariant === 3 && didVariant === 2) return 4;
+	if (espVariant === 3 && didVariant === 2) return 5;
 	return didVariant;
 }
 
