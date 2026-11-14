@@ -266,9 +266,25 @@ async function probe(quiet = false) {
 $('btn-probe').onclick = () => probe(false);
 
 // --------------------------------------------------------------------------- Device list
+// STM32 of a display wheel: which paddles (digital / analog clutch) – per wheel (ESP MAC from 0x222)
+function wheelKey() {
+	const mac = S.disc && S.disc.dongle && S.disc.dongle.wheelMac;
+	return mac ? `stmVariant.${mac}` : 'stmVariant';
+}
+function installedStmVariant(dev) {
+	return dev.type === 5 ? C.stmVariantFromDid(dev.variant, dev.stmVariant) : null;
+}
+
 function productsFor(dev) {
 	let list = S.products.filter((p) => p.type === dev.type && p.update);
-	if (dev.variant != null && list.some((p) => p.variant != null)) {
+	if (dev.type === 5 && dev.variant != null && list.some((p) => p.variant != null)) {
+		const allowed = C.stmVariantsFor(dev.variant);
+		const v = list.filter((p) => allowed.includes(p.variant));
+		if (v.length) {
+			const pref = C.pickStmVariant(dev.variant, installedStmVariant(dev), store.get(wheelKey()));
+			list = [...v.filter((p) => p.variant === pref), ...v.filter((p) => p.variant !== pref)];
+		}
+	} else if (dev.variant != null && list.some((p) => p.variant != null)) {
 		const v = list.filter((p) => p.variant === dev.variant);
 		if (v.length) list = v;
 	}
@@ -301,7 +317,7 @@ function renderDevices(force = false) {
 		S.disc.variant ? el('span', { class: 'chip' }, C.WHEEL_VARIANTS[S.disc.variant] || `Variant ${S.disc.variant}`) : null,
 	];
 	$('link-chips').replaceChildren(...chips.filter(Boolean));
-	const sig = JSON.stringify([devs.map((x) => [x.key, x.version, x.bootloader, x.variant, x.stale]), $('chk-files').checked, S.busy, Object.keys(S.files), S.choice]);
+	const sig = JSON.stringify([devs.map((x) => [x.key, x.version, x.bootloader, x.variant, x.stmVariant, x.stale]), $('chk-files').checked, S.busy, Object.keys(S.files), S.choice, wheelKey()]);
 	if (!force && sig === lastRender) return;
 	lastRender = sig;
 	if (!devs.length) {
@@ -320,8 +336,11 @@ function renderDevice(dev) {
 	const own = S.files[dev.key];
 	const allowFiles = $('chk-files').checked;
 
+	const instVar = installedStmVariant(dev);
+	const otherVariant = !!(prod && prod.variant != null && instVar != null && instVar !== prod.variant);
 	let badge = null;
 	if (dev.bootloader) badge = el('span', { class: 'badge new' }, dev.stale ? 'in bootloader · no heartbeat' : 'in bootloader');
+	else if (otherVariant) badge = el('span', { class: 'badge new' }, 'other wheel type installed');
 	else if (prod && dev.version !== '?') {
 		const c = vcmp(prod.version, dev.version);
 		badge = c > 0 ? el('span', { class: 'badge new' }, 'update available') : c === 0 ? el('span', { class: 'badge ok' }, 'up to date') : el('span', { class: 'badge info' }, 'newer than the release');
@@ -331,11 +350,24 @@ function renderDevice(dev) {
 	if (dev.bootloader) {
 		extra.push(el('span', { class: 'muted' }, 'The previous update did not finish. The device waits in its bootloader – install the firmware again.'));
 	}
+	const paddles = dev.type === 5 && cands.length > 1 && cands.every((p) => C.stmVariantsFor(dev.variant).includes(p.variant));
 	if (cands.length > 1) {
 		const sel = el('select', {
-			onchange: (e) => { S.choice[dev.key] = e.target.value; renderDevices(true); },
-		}, cands.map((p) => el('option', { value: p.id, selected: p === prod }, `${p.name} · ${p.version}`)));
-		extra.push(el('span', { class: 'muted' }, dev.type === 8 ? 'Display chip revision:' : 'Package:'), sel);
+			onchange: (e) => {
+				const p = cands.find((x) => x.id === e.target.value);
+				// wheel type: remembered per wheel (both display wheels have the same device key 5:1)
+				if (paddles && p) { store.set(wheelKey(), p.variant); delete S.choice[dev.key]; }
+				else S.choice[dev.key] = e.target.value;
+				renderDevices(true);
+			},
+		}, cands.map((p) => el('option', { value: p.id, selected: p === prod },
+			paddles ? `${p.variant === 4 ? 'Analog clutch paddles' : 'Digital paddles'} – ${p.name} · ${p.version}` : `${p.name} · ${p.version}`)));
+		extra.push(el('span', { class: 'muted' }, dev.type === 8 ? 'Display chip revision:' : paddles ? 'Wheel type:' : 'Package:'), sel);
+	}
+	if (dev.type === 5 && instVar != null && C.WHEEL_VARIANTS[instVar]) {
+		extra.push(el('span', { class: otherVariant ? 'warn' : 'muted' }, otherVariant
+			? `Installed: ${C.WHEEL_VARIANTS[instVar]} – check which paddles your wheel has before updating.`
+			: `Installed: ${C.WHEEL_VARIANTS[instVar]}`));
 	}
 	if (allowFiles) {
 		const inp = el('input', { type: 'file', accept: t.image === 'esp' ? '.bin' : '.hex,.bin', hidden: true });
@@ -361,7 +393,7 @@ function renderDevice(dev) {
 		class: 'btn primary',
 		disabled: !target || S.busy,
 		onclick: () => startUpdate(dev, own ? null : prod, own),
-	}, target ? (own ? 'Flash file' : dev.bootloader ? `Install ${prod.version}` : `Update to ${prod.version}`) : 'No package');
+	}, target ? (own ? 'Flash file' : dev.bootloader ? `Install ${prod.version}` : otherVariant ? `Install ${prod.version}` : `Update to ${prod.version}`) : 'No package');
 
 	return el('div', { class: 'dev' },
 		el('div', {},
@@ -377,9 +409,34 @@ function renderDevice(dev) {
 // refresh the list; search actively while no live device is seen
 setInterval(() => {
 	if (!S.link || S.busy) return;
+	readStmVariants();
 	renderDevices();
 	if (!S.disc.list().some((d) => !d.stale) && Date.now() - S.lastProbe > 5000) probe(true);
 }, 1000);
+
+// STM32 variant (DID 0x0100) once per running app, so the right package is preselected
+let didBusy = false;
+async function readStmVariants() {
+	if (didBusy) return;
+	const dev = S.disc.list().find((d) => d.type === 5 && !d.stale && !d.bootloader && !d.didTried);
+	if (!dev) return;
+	const real = S.disc.devices.get(dev.key);
+	if (!real) return;
+	real.didTried = true;
+	didBusy = true;
+	try {
+		const r = await C.readDid(S.link, dev, C.DID_WHEEL_VARIANT);
+		const cur = S.disc.devices.get(dev.key);
+		if (r && r.length >= 1 && cur && !S.busy) {
+			cur.stmVariant = r[0];
+			cur.didTried = true;
+			log(`${C.DEVICE_TYPES[5].name}: firmware for ${C.WHEEL_VARIANTS[C.stmVariantFromDid(cur.variant, r[0])] || `variant ${r[0]}`}`);
+			renderDevices(true);
+		}
+	} finally {
+		didBusy = false;
+	}
+}
 
 // --------------------------------------------------------------------------- Update (UDS)
 async function startUpdate(dev, prod, own) {
@@ -387,7 +444,7 @@ async function startUpdate(dev, prod, own) {
 	const t = C.DEVICE_TYPES[dev.type];
 	let key;
 	try { key = currentKey(); } catch (e) { alert(e.message); return; }
-	const label = `${t.name}${own ? ` – ${own.name}` : ` → ${prod.version}`}`;
+	const label = `${t.name}${own ? ` – ${own.name}` : ` → ${prod.name} ${prod.version}`}`;
 	if (!confirm(`${label}\n\nKeep the wheel switched on and the dongle plugged in during the update. Start now?`)) return;
 	progressStart(label);
 	try {

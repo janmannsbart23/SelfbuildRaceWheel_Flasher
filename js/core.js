@@ -28,7 +28,41 @@ export const DEVICE_TYPES = {
 	0x07: { key: 'dongle', name: 'USB dongle', image: 'esp', chip: 'ESP32-S3', usbOnly: true },
 	0x08: { key: 'display', name: 'Display (AdvancedDisplayWheel)', image: 'esp', chip: 'ESP32-P4' },
 };
-export const WHEEL_VARIANTS = { 1: 'BasicGT3', 2: 'AdvancedGT3', 3: 'AdvancedDisplayWheel' };
+export const WHEEL_VARIANTS = { 1: 'BasicGT3', 2: 'AdvancedGT3', 3: 'AdvancedDisplayWheel', 4: 'AdvancedDisplayWheel · analog clutch' };
+
+/*
+ * STM32 firmware per wheel. The wheel ESP reports its variant in 0x401 byte 4, but both display wheels
+ * share one ESP firmware (variant 3) and differ only in the STM32 firmware: 3 = digital paddles,
+ * 4 = analog clutch/shift paddles. The STM32 app reports its own variant in DID 0x0100.
+ */
+export const STM_VARIANTS_FOR_ESP = { 3: [3, 4] };
+export const DID_WHEEL_VARIANT = 0x0100;
+
+/** STM32 variants that can sit in a wheel whose ESP reports espVariant. */
+export function stmVariantsFor(espVariant) {
+	return STM_VARIANTS_FOR_ESP[espVariant] || (espVariant != null ? [espVariant] : []);
+}
+
+/**
+ * Variant of the installed STM32 firmware from DID 0x0100. The clutch firmware up to 1.1.0 wrongly
+ * reported ADVANCED_GT3 (2): in a display wheel (ESP variant 3) that means "analog clutch" (4).
+ */
+export function stmVariantFromDid(espVariant, didVariant) {
+	if (didVariant == null || didVariant === 0) return null;
+	if (espVariant === 3 && didVariant === 2) return 4;
+	return didVariant;
+}
+
+/**
+ * Order the STM32 packages for a wheel: the user's choice for this wheel first, otherwise the
+ * installed variant, otherwise the plain variant of the ESP.
+ */
+export function pickStmVariant(espVariant, installed, stored) {
+	const allowed = stmVariantsFor(espVariant);
+	if (stored != null && allowed.includes(stored)) return stored;
+	if (installed != null && allowed.includes(installed)) return installed;
+	return allowed.length ? allowed[0] : null;
+}
 
 export const UDS_BASE = 0x11440000;
 export const RX_OFFSET = 0x40;
@@ -565,6 +599,11 @@ export class Discovery {
 				variant: prev?.variant ?? null,
 				pinned: prev?.pinned && !!(d[1] & 0x10),   // pin ends once the application runs again
 			};
+			// DID 0x0100 (STM32 variant) belongs to the running app: read again after a new version
+			if (prev && prev.version === dev.version && prev.bootloader === dev.bootloader) {
+				dev.stmVariant = prev.stmVariant;
+				dev.didTried = prev.didTried;
+			}
 			if (type === 0x05 || type === 0x06) dev.variant = this.variant ?? dev.variant;
 			this.devices.set(key, dev);
 			if (!prev || prev.version !== dev.version || prev.bootloader !== dev.bootloader || prev.variant !== dev.variant) this.onChange();
@@ -578,8 +617,10 @@ export class Discovery {
 		} else if (!f.ext && f.id === 0x222 && f.data.length >= 1) {
 			const b = f.data[0];
 			const first = !this.dongle;
-			this.dongle = { radioOk: !!(b & 1), wheelKnown: !!(b & 2), buttons: !!(b & 4), at: now };
-			if (first) this.onChange();
+			const mac = (b & 2) && f.data.length >= 7 ? hex(f.data.subarray(1, 7), ':') : null;
+			const macChanged = mac !== (this.dongle && this.dongle.wheelMac);
+			this.dongle = { radioOk: !!(b & 1), wheelKnown: !!(b & 2), buttons: !!(b & 4), wheelMac: mac, at: now };
+			if (first || macChanged) this.onChange();
 		}
 	}
 
@@ -862,6 +903,25 @@ export async function flashDevice({ link, dev, image, key, progress = () => {}, 
 }
 
 /** TesterPresent to the usual addresses (finds devices that send no heartbeat). */
+/**
+ * Read a DID (ReadDataByIdentifier 0x22) from a running device. Returns the data bytes after the DID,
+ * or null on timeout / negative response (e.g. DID unknown in older firmware).
+ */
+export async function readDid(link, dev, did, timeoutMs = 600) {
+	const reqId = udsRequestId(dev.type, dev.nr);
+	const tp = new IsoTp(link, reqId, reqId + RX_OFFSET, { timeoutMs });
+	try {
+		const uds = new UdsClient(tp, { p2Ms: timeoutMs, p2StarMs: timeoutMs });
+		const r = await uds.request([0x22, (did >> 8) & 0xff, did & 0xff],
+			{ accept: (x) => x.length >= 3 && ((x[1] << 8) | x[2]) === did });
+		return r.subarray(3);
+	} catch (e) {
+		return null;
+	} finally {
+		tp.close();
+	}
+}
+
 export async function probeDevices(link, types = [5, 6, 8], nrs = [1, 2, 3, 4], waitMs = 800) {
 	const found = [];
 	const want = new Set();

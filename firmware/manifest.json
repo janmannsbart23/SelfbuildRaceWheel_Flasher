@@ -1,7 +1,7 @@
 {
  "format": 1,
  "name": "RaceWheel",
- "generated": "2026-11-13T13:40:17Z",
+ "generated": "2026-11-14T21:25:55Z",
  "products": [
   {
    "id": "wheel_esp-advanceddisplay",
@@ -318,13 +318,13 @@
   {
    "id": "wheel_stm-advanceddisplaywheelclutch",
    "type": 5,
-   "variant": 3,
+   "variant": 4,
    "name": "Wheel STM32 · AdvancedDisplayWheelClutch",
-   "version": "1.1.0",
+   "version": "1.2.0",
    "update": {
     "file": "wheel_stm-advanceddisplaywheelclutch/app.hex",
-    "size": 461172,
-    "sha256": "367c3a81ecd355c426191e31d43f8e55165988c687731ff267a3edd9e5f71dcf"
+    "size": 412174,
+    "sha256": "297a14542fb7264dcb12495e01a837ff893e9686338bda62bcb3a31e71b4ac13"
    }
   }
  ],

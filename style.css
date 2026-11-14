@@ -139,6 +139,7 @@ p { margin: .4em 0 .8em; }
 .badge.ok { background: var(--ok-bg); color: var(--ok); }
 .badge.new { background: var(--warn-bg); color: var(--warn); }
 .badge.info { background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
+.dev-extra .warn { color: var(--warn); font-weight: 600; }
 .empty { margin: 4px 0; }
 
 /* Fields */
