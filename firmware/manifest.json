@@ -1,7 +1,7 @@
 {
  "format": 1,
  "name": "RaceWheel",
- "generated": "2026-11-15T22:12:22Z",
+ "generated": "2026-11-15T22:17:57Z",
  "products": [
   {
    "id": "wheel_esp-advanceddisplay",
@@ -300,7 +300,7 @@
    "update": {
     "file": "wheel_stm-advancedgt3/app.hex",
     "size": 458786,
-    "sha256": "4c85bfcfeb4cf525df1e7902670e7299e81be64c9551d5131a1eefa2d4df6a81"
+    "sha256": "6c23b1667743cc9cb03613350dfb91619d7c23a0bfd7e13093e9491bb150a1dd"
    }
   },
   {
@@ -312,7 +312,7 @@
    "update": {
     "file": "wheel_stm-basicgt3/app.hex",
     "size": 430330,
-    "sha256": "376989f0b45ee65072c144c263368eedac834ff8429a56b93feb2d85e303a9b2"
+    "sha256": "02229dfb03f344cbcd3acecdf3f77b9f66e9e73a6181e31280df80a88b05bbb6"
    }
   },
   {
